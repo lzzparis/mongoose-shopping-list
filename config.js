@@ -1,4 +1,5 @@
-exports.DATABASE_URL  =	process.env.DATABASE_URL ||
+exports.DATABASE_URL  =	 "mongodb://ds041566.mlab.com:41566/mongoose-shopping-list" ||
+												process.env.DATABASE_URL ||
                         global.DATABASE_URL ||
                         (process.env.NODE_ENV === "production" ?
                           "mongodb://ds041566.mlab.com:41566/mongoose-shopping-list" :

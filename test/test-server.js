@@ -58,14 +58,6 @@ describe('Shopping List', function() {
          res.body.name.should.be.a('string');
    //       res.body.id.should.be.a('number');
           res.body.name.should.equal('Kale');
-//          storage.items.should.be.a('array');
-//          storage.items.should.have.length(4);
-//          storage.items[3].should.be.a('object');
-//          storage.items[3].should.have.property('id');
-//          storage.items[3].should.have.property('name');
-//   //       storage.items[3].id.should.be.a('number');
-//          storage.items[3].name.should.be.a('string');
-//          storage.items[3].name.should.equal('Kale');
           done();
         });
 		});
@@ -78,8 +70,6 @@ describe('Shopping List', function() {
 //        console.log("lizzie",res);
 				res.should.have.status(500);
 //				res.statusMessage.should.equal("Internal Server Error");
-//				storage.items[2].name.should.equal("Peppers");
-//				storage.items[2].id.should.equal(2);
 				done();
 			});
 		});
@@ -93,132 +83,109 @@ describe('Shopping List', function() {
         .put('/items/'+potatoesId)
 			  .send({'name':'potatoes','id':potatoesId})
 			  .end(function(err, res){
-          console.log("from mocha:",res.body);
-  				should.equal(err,null);
-	  			res.should.have.status(201);
-		  		res.body.should.be.a('object');
-			  	res.body.should.have.property('name');
-  				res.body.should.have.property('_id');
-	  			res.body.name.should.be.a('string');
-		//  		res.body.id.should.be.a('number');
-			  	res.body.name.should.equal('potatoes');
-//				storage.items.should.be.a('array');
-//				storage.items.should.have.length(4);
-//				storage.items[3].name.should.equal('potatoes');
-//				storage.items[3].id.should.equal(3);
-				  done();
+  	  		res.should.have.status(201);
+					chai.request(app)
+					.get('/items')
+					.end(function(err, res){
+    				should.equal(err,null);
+  	  			res.should.have.status(200);
+  		  		res.body[3].should.be.a('object');
+  			  	res.body[3].should.have.property('name');
+    				res.body[3].should.have.property('_id');
+  	  			res.body[3].name.should.be.a('string');
+  			  	res.body[3].name.should.equal('potatoes');
+  				  done();
+					});
         });
 			});	
 		});
-//temp		it('should fail gracefully for put with no id',function(done){
-//temp			chai.request(app)
-//temp			.put('/items/')
-//temp			.end(function(err, res){
-//temp				res.should.have.status(404);
-//temp//        storage.items.should.have.length(4);
-//temp//        storage.items[0].name.should.equal("Broad beans");
-//temp//        storage.items[0].id.should.equal(0);
-//temp//        storage.items[1].name.should.equal("Tomatoes");
-//temp//        storage.items[1].id.should.equal(1);
-//temp//        storage.items[2].name.should.equal("Peppers");
-//temp//        storage.items[2].id.should.equal(2);
-//temp//        storage.items[3].name.should.equal("potatoes");
-//temp//        storage.items[3].id.should.equal(3);
-//temp				done();
-//temp			});
-//temp		}
-//temp    
-//temp    );
-//temp		it('should use the body ID when it differs from the endpoint id',function(done){
-//temp			chai.request(app)
-//temp			.put('/items/3')
-//temp			.send({'name':'bananas','id':2})
-//temp			.end(function(err, res){
-//temp				should.equal(err, null);
-//temp				res.should.have.status(200);
-//temp				res.body.name.should.equal('bananas');
-//temp				res.body.id.should.equal(2);
-//temp//				storage.items[2].name.should.equal('bananas');
-//temp//				storage.items[2].id.should.equal(2);
-//temp//				storage.items[3].name.should.equal('potatoes');
-//temp//				storage.items[3].id.should.equal(3);
-//temp				done();	
-//temp			});
-//temp		});
-//temp		it('should create a new item when ID doesn\'t exist in put',function(done){
-//temp			chai.request(app)
-//temp			.put('/items/75')
-//temp			.send({'name':'kiwi','id':75})
-//temp			.end(function(err, res){
-//temp				should.equal(err, null);
-//temp				res.should.have.status(200);
-//temp				res.body.name.should.equal('kiwi');	
-//temp				res.body.id.should.equal(75);	
-//temp//				storage.items.should.have.length(5);
-//temp//				storage.items[4].name.should.equal('kiwi');	
-//temp//				storage.items[4].id.should.equal(75);	
-//temp				done();
-//temp			});
-//temp		});
-//temp		it('should fail gracefully for bad JSON during a put');
-//temp
-//temp		it('should fail gracefully for invalid body during put');
-//temp    it('should delete an item on delete',function(done){
-//temp			chai.request(app)
-//temp			.delete('/items/3')
-//temp			.end(function(err, res){
-//temp				should.equal(err, null);
-//temp				res.should.have.status(200);
-//temp//				storage.items.should.have.length(4);
-//temp//				storage.items[0].name.should.equal("Broad beans");
-//temp//				storage.items[0].id.should.equal(0);
-//temp//				storage.items[1].name.should.equal("Tomatoes");
-//temp//				storage.items[1].id.should.equal(1);
-//temp//				storage.items[2].name.should.equal("bananas");
-//temp//				storage.items[2].id.should.equal(2);
-//temp//				storage.items[3].name.should.equal("kiwi");
-//temp//				storage.items[3].id.should.equal(75);
-//temp				done();
-//temp			});
-//temp		});
-//temp		it('should fail gracefully on delete with no ID',function(done){
-//temp			chai.request(app)
-//temp			.delete('/items/')
-//temp			.end(function(err, res){
-//temp				res.should.have.status(404);
-//temp//        storage.items.should.have.length(4);
-//temp//        storage.items[0].name.should.equal("Broad beans");
-//temp//        storage.items[0].id.should.equal(0);
-//temp//        storage.items[1].name.should.equal("Tomatoes");
-//temp//        storage.items[1].id.should.equal(1);
-//temp//        storage.items[2].name.should.equal("bananas");
-//temp//        storage.items[2].id.should.equal(2);
-//temp//        storage.items[3].name.should.equal("kiwi");
-//temp//        storage.items[3].id.should.equal(75);
-//temp				done();
-//temp			});
-//temp		});
-//temp		
-//temp		it('should fail gracefully on delete with nonexistent ID', function(done){
-//temp			chai.request(app)
-//temp			.delete('/items/-1')
-//temp			.end(function(err, res){
-//temp        res.should.have.status(404);
-//temp        res.body.status.should.equal("ERROR");
-//temp//        storage.items.should.have.length(4);
-//temp//        storage.items[0].name.should.equal("Broad beans");
-//temp//        storage.items[0].id.should.equal(0);
-//temp//        storage.items[1].name.should.equal("Tomatoes");
-//temp//        storage.items[1].id.should.equal(1);
-//temp//        storage.items[2].name.should.equal("bananas");
-//temp//        storage.items[2].id.should.equal(2);
-//temp//        storage.items[3].name.should.equal("kiwi");
-//temp//        storage.items[3].id.should.equal(75);
-//temp        done();
-//temp
-//temp
-//temp			});
-//temp		});
+		it('should fail gracefully for put with no id',function(done){
+			chai.request(app)
+			.put('/items/')
+			.end(function(err, res){
+				res.should.have.status(404);
+				done();
+			});
+		}
+    
+    );
+		it('should use the body ID when it differs from the endpoint id',function(done){
+			var bananasId;
+			chai.request(app)
+			.get('/items')
+			.end(function(err, res){
+					bananasId = res.body[2]._id;
+					chai.request(app)
+					.put('/items/3')
+					.send({'name':'bananas','id':bananasId})
+					.end(function(err, res){
+							should.equal(err, null);
+							res.should.have.status(201);
+							chai.request(app)
+							.get('/items')
+							.end(function(err,res){
+									res.should.have.status(200);
+									res.body[2].name.should.equal('bananas');
+									done();	
+							});
+					});
+			});
+		});
+		it('should create a new item when ID doesn\'t exist in put',function(done){
+			chai.request(app)
+			.put('/items/75')
+			.send({'name':'kiwi','id':75})
+			.end(function(err, res){
+					should.equal(err, null);
+					res.should.have.status(201);
+					chai.request(app)
+					.get('/items')
+					.end(function(err, res){
+						var last = res.body.length-1;
+						res.body[last].name.should.equal('kiwi');	
+//						res.body[last].id.should.equal(75);	
+						done();
+					});
+			});
+		});
+//		it('should fail gracefully for bad JSON during a put');
+
+//		it('should fail gracefully for invalid body during put');
+
+    it('should delete an item on delete',function(done){
+			chai.request(app)
+			.get('/items')
+			.end(function(err, res){
+					var deleteId = res.body[1]._id;
+					console.log(deleteId);
+					chai.request(app)
+					.delete('/items/'+deleteId)
+					.end(function(err, res){
+							should.equal(err, null);
+							res.should.have.status(201);
+							done();
+					});
+			});
+		});
+		it('should fail gracefully on delete with no ID',function(done){
+			chai.request(app)
+			.delete('/items')
+			.end(function(err, res){
+				res.should.have.status(404);
+				done();
+			});
+		});
+		
+		it('should fail gracefully on delete with nonexistent ID', function(done){
+			chai.request(app)
+			.delete('/items/-1')
+			.end(function(err, res){
+        res.should.have.status(500);
+        done();
+
+
+			});
+		});
   after(function(done) {
     Item.remove(function() {
       done();

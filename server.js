@@ -40,20 +40,25 @@ app.post("/items", function(req, res){
 });
 
 app.put("/items/:id", function(req, res){
-  var name = req.body.name;
-  var id = req.params.id;
-  console.log("from server",name, id);
-//  Item.find({}, function(err,all){console.log(all)});
-  Item.findOneAndUpdate({_id:id},{name:name}, function(err, item){
+  var name = {
+    name: req.body.name
+  }
+  var id = req.body.id;
+  Item.findOneAndUpdate({_id:id},name, function(err, item){
     if(err || !item){
-      return res.status(500).json({
-        message: "Internal Server Error"
-      });
+			Item.create(name, function(err, item2){
+		 	  if(err || !item2){
+		      return res.status(500).json({
+    	    	message: "Internal Server Error"
+      		});
+				}
+    		res.status(201).json(item2);
+			});
     }
-    console.log("from server",item);
-    res.status(201).json(item);
+		else{
+	    res.status(201).json(item);
+		}
   });
-  Item.find({}, function(err,all){console.log(all)});
 });
 
 app.delete("/items/:id",function(req,res){
@@ -69,6 +74,7 @@ app.delete("/items/:id",function(req,res){
 });
 
 app.use("*", function(req, res){
+	console.log("Tater tots");
   res.status(404).json({
     message: "Not Found"
   });

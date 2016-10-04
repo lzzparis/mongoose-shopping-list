@@ -1,8 +1,7 @@
-exports.DATABASE_URL  =	 "mongodb://insecure:2potatoes@ds041566.mlab.com:41566/mongoose-shopping-list" ||
-												process.env.DATABASE_URL ||
+exports.DATABASE_URL  =	process.env.DATABASE_URL ||
                         global.DATABASE_URL ||
                         (process.env.NODE_ENV === "production" ?
-                          "mongodb://ds041566.mlab.com:41566/mongoose-shopping-list" :
+                          "mongodb://insecure:2potatoes@ds041566.mlab.com:41566/mongoose-shopping-list" :
                           "mongodb://localhost/shopping-list-dev");
 
 exports.PORT = process.env.PORT || 8080;
